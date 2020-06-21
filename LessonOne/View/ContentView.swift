@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct ContentView: View
+struct EmojiMemoryGameView: View
 {
 	var viewModel: EmojiMemoryGame
 
@@ -23,7 +23,7 @@ struct ContentView: View
 		}
 			.padding()
 			.foregroundColor(Color.orange)
-		.font( viewModel.cards.count < 5 ? Font.largeTitle : Font.body )
+			.font( viewModel.cards.count < 5 ? Font.largeTitle : Font.body )
 	}
 }
 
@@ -44,7 +44,7 @@ struct CardView: View
 			}
 			else {
 				RoundedRectangle(cornerRadius: 10.0)
-				.fill()
+					.fill()
 			}
 		}
 	}
@@ -53,6 +53,6 @@ struct CardView: View
 struct ContentView_Previews: PreviewProvider
 {
 	static var previews: some View {
-		ContentView(viewModel: EmojiMemoryGame())
+		EmojiMemoryGameView(viewModel: EmojiMemoryGame())
 	}
 }

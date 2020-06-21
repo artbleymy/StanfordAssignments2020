@@ -17,7 +17,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate
 			   willConnectTo session: UISceneSession,
 			   options connectionOptions: UIScene.ConnectionOptions) {
 		let game = EmojiMemoryGame()
-		let contentView = ContentView(viewModel: game)
+		let contentView = EmojiMemoryGameView(viewModel: game)
 
 		// Use a UIHostingController as window root view controller.
 		if let windowScene = scene as? UIWindowScene {

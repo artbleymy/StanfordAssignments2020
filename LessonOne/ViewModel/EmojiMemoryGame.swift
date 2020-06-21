@@ -8,34 +8,53 @@
 
 import SwiftUI
 
-final class EmojiMemoryGame
+final class EmojiMemoryGame: ObservableObject
 {
-	static var emojis = ["🤡", "💍", "👑", "💅🏻", "☠️", "👿", "👺", "🐍", "🦀", "🐸", "🦜", "🦔", "🐠", "🦕", "⚡️", "🌊", "🍅", "🍔", "🍕"]
-	private var model: MemoryGame<String>
+	static let themes = [
+		Theme(name: "Halloween", emojiSet: ["☠️", "🎃", "👻", "👽", "🤡", "👺", "👾"], color: Color.orange),
+		Theme(name: "Sport", emojiSet: ["🏀", "⚽️", "⛸", "🥋", "🥊", "🏆", "🏄", "🪂", "🏹"], color: Color.blue),
+		Theme(name: "Food", emojiSet: ["🍎", "🍐", "🍌", "🍉", "🍆", "🍅", "🍇", "🥐", "🍗", "🍒"], color: Color.green),
+		Theme(name: "Transport", emojiSet: ["🚜", "🚓", "🛳", "🎠", "🚁", "🛫", "🛴", "🚗", "🚑", "🚀"], color: Color.red),
+		Theme(name: "Gadgets", emojiSet: ["💻", "📱", "💿", "📷", "📺", "🔦", "🕹", "🖨", "⌚️"], color: Color.gray),
+		Theme(name: "Flags", emojiSet: ["🇬🇪", "🇬🇷", "🇨🇳", "🇨🇦", "🇮🇸", "🇮🇱", "🇷🇺", "🇷🇪", "🇯🇵", "🇫🇮", "🇬🇧", "🇧🇷"], color: Color.yellow),
+	]
+
+	@Published private var model: MemoryGame<String>
 
 	// MARK: - Access to the model
 	var cards: Array<MemoryGame<String>.Card> {
-		model.cards
+		self.model.cards
+	}
+
+	var color: Color {
+		self.model.color
+	}
+
+	var themeName: String {
+		self.model.themeName
 	}
 
 	init() {
 		self.model = EmojiMemoryGame.createMemoryGame()
 	}
 
+	func startGame() {
+		self.model = EmojiMemoryGame.createMemoryGame()
+	}
 	// MARK: - Intents
 	func chooseCard(card: MemoryGame<String>.Card) {
 		model.choose(card: card)
 	}
-}
 
-private extension EmojiMemoryGame
-{
 	static func createMemoryGame() -> MemoryGame<String> {
 
 		let numberOfPairs = Int.random(in: 2...5)
-		return MemoryGame<String>(numberOfPairsOfCards: numberOfPairs) { _ in
-			let randomIndex = Int.random(in: 0..<emojis.count)
-			return emojis.remove(at: randomIndex)
+		let theme = themes[Int.random(in: 0..<themes.count)]
+		var emojisForGame = theme.emojiSet
+
+		return MemoryGame<String>(numberOfPairsOfCards: numberOfPairs, color: theme.color, themeName: theme.name) { _ in
+			let randomIndex = Int.random(in: 0..<emojisForGame.count)
+			return emojisForGame.remove(at: randomIndex)
 		}
 	}
 }
