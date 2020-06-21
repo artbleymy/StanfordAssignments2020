@@ -12,8 +12,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable
 {
 	let color: Color
 	let themeName: String
-	var cards: [Card]
-	var indexOfTheOneAndOnlyFaceUpCard: Int? {
+	private(set) var cards: [Card]
+
+	private var indexOfTheOneAndOnlyFaceUpCard: Int? {
 		get {
 			let indicies = self.cards.indices.filter{ self.cards[$0].isFaceUp }
 			return indicies.count == 1 ? indicies.first : nil

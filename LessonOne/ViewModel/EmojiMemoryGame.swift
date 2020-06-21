@@ -10,7 +10,7 @@ import SwiftUI
 
 final class EmojiMemoryGame: ObservableObject
 {
-	static let themes = [
+	private static let themes = [
 		Theme(name: "Halloween", emojiSet: ["☠️", "🎃", "👻", "👽", "🤡", "👺", "👾"], color: Color.orange),
 		Theme(name: "Sport", emojiSet: ["🏀", "⚽️", "⛸", "🥋", "🥊", "🏆", "🏄", "🪂", "🏹"], color: Color.blue),
 		Theme(name: "Food", emojiSet: ["🍎", "🍐", "🍌", "🍉", "🍆", "🍅", "🍇", "🥐", "🍗", "🍒"], color: Color.green),
