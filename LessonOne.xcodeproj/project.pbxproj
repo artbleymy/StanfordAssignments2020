@@ -112,10 +112,10 @@
 			isa = PBXGroup;
 			children = (
 				854CE6D12483CFF300CDA53B /* EmojiMemoryGameView.swift */,
+				8540EBFC249F9D9C00A2AF9E /* Cardify.swift */,
 				8540EBF42496430200A2AF9E /* Grid.swift */,
 				8540EBF62496482600A2AF9E /* GridLayout.swift */,
 				8540EBFA249F977C00A2AF9E /* Pie.swift */,
-				8540EBFC249F9D9C00A2AF9E /* Cardify.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

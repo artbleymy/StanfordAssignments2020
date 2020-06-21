@@ -29,9 +29,66 @@ struct MemoryGame<CardContent> where CardContent: Equatable
 	struct Card: Identifiable
 	{
 		var id: Int
-		var isFaceUp: Bool = false
-		var isMatched: Bool = false
+		var isFaceUp: Bool = false {
+			didSet {
+				if isFaceUp {
+					print("Start")
+					startUsingBonusTime()
+				}
+				else {
+					print("Finish")
+					stopUsingBonusTime()
+				}
+			}
+		}
+		var isMatched: Bool = false {
+			didSet {
+				stopUsingBonusTime()
+			}
+		}
+
 		var content: CardContent
+
+		var bonusTimeLimit: TimeInterval = 6
+
+		private var faceUpTime: TimeInterval {
+			if let lastFaceUpDate = self.lastFaceUpDate {
+				return pastFaceUpTime + Date().timeIntervalSince(lastFaceUpDate)
+			}
+			else {
+				return pastFaceUpTime
+			}
+		}
+
+		var lastFaceUpDate: Date?
+		var pastFaceUpTime: TimeInterval = 0
+
+		var bonusTimeRemaining: TimeInterval {
+			max(0, bonusTimeLimit - faceUpTime)
+		}
+
+		var bonusRemaining: Double {
+			(bonusTimeLimit > 0 && bonusTimeRemaining > 0) ? bonusTimeRemaining / bonusTimeLimit : 0
+		}
+
+		var hasEarnedBonus: Bool {
+			self.isMatched && self.bonusTimeRemaining > 0
+		}
+
+		var isConsumingBonusTime: Bool {
+			self.isFaceUp && self.isMatched == false && self.bonusTimeRemaining > 0
+		}
+
+		private mutating func startUsingBonusTime() {
+			if isConsumingBonusTime, lastFaceUpDate == nil {
+				self.lastFaceUpDate = Date()
+			}
+		}
+
+		private mutating func stopUsingBonusTime() {
+			self.pastFaceUpTime = self.faceUpTime
+			self.lastFaceUpDate = nil
+		}
 	}
 
 	init(numberOfPairsOfCards: Int,
